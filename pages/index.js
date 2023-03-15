@@ -1,11 +1,16 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import Image from 'next/image'
+import Link from 'next/link';
+import Blogs from '@/models/Blogs'
+import mongoose from "mongoose";
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+
+export default function Home({ blogs }) {
+  
   return (
     <>
       <Head>
@@ -15,12 +20,40 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.card}></div>
-        <div className={styles.card}></div>
-        <div className={styles.card}></div>
-        <div className={styles.card}></div>
-        <div className={styles.card}></div>
+        {blogs.map((item) => {
+          return <div key={item._id} className={styles.card}>
+            <Image src={item.image} alt="text" width={250} height={200} />
+            <h1>{item.name}</h1>
+            <p className={styles.title}>{item.title}</p>
+            <p>{item.desc}</p>
+            <Link className={styles.read} href={'/readmore/[id]'} as={`/readmore/${item._id}`}>Read more...</Link>
+          </div>
+        })}
+        <style jsx>{`
+        h1 {
+          textAlign: center;
+          color: darkblue;
+          fontWeight: bolder;
+          fontSize: 25px;
+          fontFamily: revert-layer;
+          letterSpacing: 2px;
+
+        }
+        .title {
+          color: blue;
+          font-size: 18px;
+        }
+        `}</style>
       </main>
     </>
   )
+}
+export async function getServerSideProps(context) {
+if(!mongoose.connections[0].readyState) {
+  await mongoose.connect('mongodb://127.0.0.1:27017/blogapp')
+}
+  let blogs = await Blogs.find()
+return {
+  props: { blogs: JSON.parse(JSON.stringify(blogs)) }, // will be passed to the page component as props
+}
 }

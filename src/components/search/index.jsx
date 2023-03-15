@@ -14,8 +14,8 @@ export default function Seacrh() {
           borderBottomLeftRadius: "50px",
           fontWeight:'bold',
         }}
-        type="search"
-        placeholder="search blogs ... "
+        type="Search"
+        placeholder="Search blogs ... "
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
@@ -30,7 +30,7 @@ export default function Seacrh() {
           cursor:'pointer'
         }}
         type="button"
-        value={"search"}
+        value={"Search"}
         onClick={() => handleSubmit(text)}
       />
     </div>

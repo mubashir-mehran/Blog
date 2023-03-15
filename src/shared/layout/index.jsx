@@ -1,5 +1,6 @@
 import Seacrh from "@/src/components/search";
 import Button from "@/src/components/search/button";
+import Link from "next/link";
 
 export default function Layout({ children }) {
   return (
@@ -14,16 +15,30 @@ export default function Layout({ children }) {
           boxShadow: "1px 1px 3px lightgrey",
         }}
       >
-        <h4 style={{fontSize:'24px',letterSpacing:'2px'}}>BLOG APP</h4>
+        <Link
+          href={"/"}
+          style={{
+            fontSize: "24px",
+            letterSpacing: "2px",
+            textDecoration: "none",
+            color: "black",
+            fontWeight: "bold",
+          }}
+        >
+          BLOG APP
+        </Link>
         <Seacrh />
         <div
           style={{
             display: "flex",
             gap: "10px",
           }}
+        
         >
-          <Button handleClick={""} text={"SIGN-UP"} to={'/signup'} />
-          <Button handleClick={""} text={"SIGN-IN"} to={'/signin'}/>
+        
+          <Button handleClick={""} text={"SIGN-UP"} to={"/signup"} />
+          <Button handleClick={""} text={"SIGN-IN"} to={"/signin"} />
+          <Button handleClick={""} text={"CREATE-BLOGS"} to={"/createblogs"} />
         </div>
       </nav>
       <section>{children}</section>
